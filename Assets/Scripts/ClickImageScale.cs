@@ -6,10 +6,16 @@ using DG.Tweening; //これ大事！
 
 public class ClickImageScale : MonoBehaviour
 {
+
+    //UI関連
     Canvas canvas;
     RectTransform canvasRect;
     RectTransform photoSize;
     Vector2 targetPosition;
+
+    ///拡大機能関連
+    float effectDuration;
+    float magnification;
     bool isZoomScale;
 
     void Start()
@@ -18,6 +24,11 @@ public class ClickImageScale : MonoBehaviour
         canvas = transform.parent.GetComponent<Canvas>();
         canvasRect = transform.parent.GetComponent<RectTransform>();
 
+        //２秒間のアニメーションで実行しています！
+        effectDuration = 2.0f;
+
+        //拡大率は2.5倍に変更しています！
+        magnification = 2.5f;
     }
 
     public void ScaleUp()
@@ -47,16 +58,16 @@ public class ClickImageScale : MonoBehaviour
     {
         if (!isZoomScale)
         {
-            photoSize.DOAnchorPos(-targetPosition, 2f);
+            photoSize.DOAnchorPos(-targetPosition, effectDuration);
 
-            photoSize.DOScale(2.5f, 2f);
+            photoSize.DOScale(magnification, effectDuration);
             
         }
         else
         {
-            photoSize.DOAnchorPos(new Vector2(0,0), 2f);
+            photoSize.DOAnchorPos(new Vector2(0,0), effectDuration);
 
-            photoSize.DOScale(1f, 2f);
+            photoSize.DOScale(1f, effectDuration);
         }
 
         isZoomScale = !isZoomScale;
